@@ -30,4 +30,11 @@ express()
     }
     return result;
   }
+  express.get('/multiple', function(req, res) {
+    res.json({
+      number: 1,
+      name: 'John',
+      gender: 'male'
+    });
+  });
   
