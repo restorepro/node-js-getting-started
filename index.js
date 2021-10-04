@@ -18,6 +18,19 @@ express()
       gender: 'male'
     });
   })
+  .get('/array', function(req, res) {
+    res.json([{
+        number: 1,
+        name: 'John',
+        gender: 'male'
+      },
+      {
+        number: 2,
+        name: 'Ashley',
+        gender: 'female'
+      }
+    ]);
+  })
   .get('/hello', (req, res) => res.send('Hello World'))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
