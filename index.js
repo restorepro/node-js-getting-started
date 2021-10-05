@@ -79,6 +79,8 @@ express()
   ]);
   }
 
+  uuidv4();
+
   function uuidv4() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
       // tslint:disable-next-line: no-bitwise
