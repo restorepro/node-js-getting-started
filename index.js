@@ -60,7 +60,7 @@ express()
     let myValue = request.body.username;	// a value from your JSON
     //response.send(myJson);	 // echo the result back
     console.log("UserName: " + myValue);
-    res.json([{
+    response.json([{
       number: 1,
       name: myValue,
       gender: 'male'
