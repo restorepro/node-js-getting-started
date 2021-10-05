@@ -1,6 +1,7 @@
 const cool = require('cool-ascii-faces');
 const express = require('express');
 const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 const PORT = process.env.PORT || 5000;
 
 const { Pool } = require('pg');
@@ -10,7 +11,8 @@ const pool = new Pool({
     rejectUnauthorized: false
   }
 });
-
+var testUUID = uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+console.log("test UUID: " + testUUID);
 console.log(process.env.DATABASE_URL);
 express()
   .use(express.static(path.join(__dirname, 'public')))
@@ -79,19 +81,4 @@ express()
   ]);
   }
 
-  uuidv4();
-
-  function uuidv4() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-      // tslint:disable-next-line: no-bitwise
-      const r =
-        (window.crypto.getRandomValues(new Uint32Array(1))[0] *
-          Math.pow(2, -32) * 16) |
-        0;
-      // tslint:disable-next-line: no-bitwise
-      const v = c === "x" ? r : (r & 0x3) | 0x8;
-      console.log("Guid: " + v.toString(16));
-      return v.toString(16);
-    });
-  }
 
