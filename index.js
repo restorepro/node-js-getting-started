@@ -56,7 +56,7 @@ express()
     ]);
   })
   .post('/newUser', function (request, response) {
-    let myJson = request.body;      // your JSON
+    //let myJson = request.body;      // your JSON
     //let myValue = request.body.username;	// a value from your JSON
     //response.send(myJson);	 // echo the result back
     //console.log("UserName: " + myValue);
