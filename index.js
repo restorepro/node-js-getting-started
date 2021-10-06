@@ -19,7 +19,6 @@ console.log(process.env.DATABASE_URL);
 var todos = [{id:1, title:'buy the milk'}, {id:2, title:'rent a car'}, {id:3, title:'feed the cat'}];
 var count = todos.length;
 
-app.use(bodyParser);
 express()
   .use(express.static(path.join(__dirname, 'public')))
   .use(express.urlencoded({extended: true}))
