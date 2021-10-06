@@ -65,16 +65,17 @@ express()
     ]);
   })
 .get('/newuser', (request, response) => {
-  var user_name = request.query.my;
-  console.log("request body: " + request.body);
+  var user_name = request.query.my; // works
+  console.log("request body: " + request.query);
   //var newTodo = JSON.parse(request.body);
-  var newTodo = request.body;
+  var newTodo = request.query;
    count = count + 1;
    newTodo.id = count;
    todos.push(newTodo);
   response.status(201).json(user_name);
 })
   .get('/hello', (req, res) => res.send('Hello World'))
+  .post('/helloworld', (req, res) => res.send('Hello World'))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 
