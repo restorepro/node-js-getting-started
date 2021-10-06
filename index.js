@@ -6,12 +6,26 @@ const { v4: uuidv4 } = require('uuid');
 const PORT = process.env.PORT || 5000;
 
 const { Pool } = require('pg');
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false
+//   }
+// });
+const pool = (() => {
+  if (process.env.NODE_ENV !== 'production') {
+      return new Pool({
+          connectionString: process.env.DATABASE_URL,
+          ssl: false
+      });
+  } else {
+      return new Pool({
+          connectionString: process.env.DATABASE_URL,
+          ssl: {
+              rejectUnauthorized: false
+            }
+      });
+  } })();
 //var bodyParser = require('body-parser')
 var testUUID = uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 console.log("test UUID: " + testUUID);
@@ -32,6 +46,19 @@ express()
     try {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM test_table');
+      const results = { 'results': (result) ? result.rows : null };
+      res.render('pages/db', results);
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+  .get('/add', async (req, res) => {
+    try {
+      const client = await pool.connect();
+      const result = await client.query("INSERT INTO test_table(id, username, password, email, userUUID)" + 
+      "VALUES(2, 'smokey', smokey20, 'mroyster@royster.com', '42cf81a9-6f79-413c-aef3-608d18ceea70')");
       const results = { 'results': (result) ? result.rows : null };
       res.render('pages/db', results);
       client.release();
@@ -71,26 +98,18 @@ express()
   // insert
   pool.query(
     "INSERT INTO test_table(id, username, password, email, userUUID)" + 
-    "VALUES('2', 'smokey', smokey20, 'mroyster@royster.com', '42cf81a9-6f79-413c-aef3-608d18ceea70')",
+    "VALUES(2, 'smokey', smokey20, 'mroyster@royster.com', '42cf81a9-6f79-413c-aef3-608d18ceea70')",
     (err, res) => {
       console.log(err, res);
       pool.end();
     }
   );
-  const getUsers = (request, response) => {
-    pool.query('SELECT * FROM test_table ORDER BY id ASC', (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-    })
-  }
   // insert end
-  // var newTodo = request.query;
-  //  count = count + 1;
-  //  newTodo.id = count;
-  //  todos.push(newTodo);
-  // response.status(200).json(user_name);
+  var newTodo = request.query;
+   count = count + 1;
+   newTodo.id = count;
+   todos.push(newTodo);
+  response.status(200).json(user_name);
 })
   .get('/hello', (req, res) => res.send('Hello World'))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
