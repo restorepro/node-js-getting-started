@@ -11,6 +11,7 @@ const pool = new Pool({
     rejectUnauthorized: false
   }
 });
+var bodyParser = require('body-parser')
 var testUUID = uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 console.log("test UUID: " + testUUID);
 console.log(process.env.DATABASE_URL);
@@ -55,18 +56,13 @@ express()
     }
     ]);
   })
-  .post('/newUser', function (request, response) {
-    //let myJson = request.body;      // your JSON
-    //let myValue = request.body.username;	// a value from your JSON
-    //response.send(myJson);	 // echo the result back
-    //console.log("UserName: " + myValue);
-    response.json([{
-      number: 1,
-      name: "myValue",
-      gender: 'male'
-    }
-    ]);
-  })
+.post('/newUser', (request, response) => {
+  var newTodo = JSON.parse(request.body);
+  //count = count + 1;
+  //newTodo.id = count;
+  //todos.push(newTodo);
+  response.status(201).json();
+})
   .get('/hello', (req, res) => res.send('Hello World'))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
