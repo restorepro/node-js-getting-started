@@ -15,8 +15,15 @@ var bodyParser = require('body-parser')
 var testUUID = uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 console.log("test UUID: " + testUUID);
 console.log(process.env.DATABASE_URL);
+
+var todos = [{id:1, title:'buy the milk'}, {id:2, title:'rent a car'}, {id:3, title:'feed the cat'}];
+var count = todos.length;
+
+app.use(bodyParser);
 express()
   .use(express.static(path.join(__dirname, 'public')))
+  .use(express.urlencoded({extended: true}))
+  .use(express.json())
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
@@ -56,11 +63,11 @@ express()
     }
     ]);
   })
-.post('/newUser', (request, response) => {
+.get('/newUser', (request, response) => {
   var newTodo = JSON.parse(request.body);
-  //count = count + 1;
-  //newTodo.id = count;
-  //todos.push(newTodo);
+  count = count + 1;
+  newTodo.id = count;
+  todos.push(newTodo);
   response.status(201).json();
 })
   .get('/hello', (req, res) => res.send('Hello World'))
