@@ -62,7 +62,7 @@ express()
     }
     ]);
   })
-.get('/newUser', (request, response) => {
+.post('/newUser', (request, response) => {
   var newTodo = JSON.parse(request.body);
   count = count + 1;
   newTodo.id = count;
