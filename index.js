@@ -77,12 +77,20 @@ express()
       pool.end();
     }
   );
+  const getUsers = (request, response) => {
+    pool.query('SELECT * FROM test_table ORDER BY id ASC', (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+  }
   // insert end
-  var newTodo = request.query;
-   count = count + 1;
-   newTodo.id = count;
-   todos.push(newTodo);
-  response.status(200).json(user_name);
+  // var newTodo = request.query;
+  //  count = count + 1;
+  //  newTodo.id = count;
+  //  todos.push(newTodo);
+  // response.status(200).json(user_name);
 })
   .get('/hello', (req, res) => res.send('Hello World'))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
