@@ -65,14 +65,14 @@ express()
     ]);
   })
 .get('/newuser', (request, response) => {
-  var user_name = request.body.my;
+  var user_name = request.query.my;
   console.log("request body: " + request.body);
   //var newTodo = JSON.parse(request.body);
   var newTodo = request.body;
    count = count + 1;
    newTodo.id = count;
    todos.push(newTodo);
-  response.status(201).json(request.body);
+  response.status(201).json(user_name);
 })
   .get('/hello', (req, res) => res.send('Hello World'))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
