@@ -68,14 +68,23 @@ express()
   var user_name = request.query.my; // works
   console.log("request body: " + request.query);
   //var newTodo = JSON.parse(request.body);
+  // insert
+  pool.query(
+    "INSERT INTO test_table(id, username, password, email, userUUID)" + 
+    "VALUES('2', 'smokey', smokey20, 'mroyster@royster.com', '42cf81a9-6f79-413c-aef3-608d18ceea70')",
+    (err, res) => {
+      console.log(err, res);
+      pool.end();
+    }
+  );
+  // insert end
   var newTodo = request.query;
    count = count + 1;
    newTodo.id = count;
    todos.push(newTodo);
-  response.status(201).json(user_name);
+  response.status(200).json(user_name);
 })
   .get('/hello', (req, res) => res.send('Hello World'))
-  .post('/helloworld', (req, res) => res.send('Hello World'))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 
